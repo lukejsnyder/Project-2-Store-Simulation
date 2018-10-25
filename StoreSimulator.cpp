@@ -17,6 +17,7 @@ private:
     MyPriorityQueue<Event> events;
     vector<RegisterQueue> registers;
     double simClock;
+    int totalNumberOfRegisters = 8;
 
 public:
     StoreSimulator(){
@@ -73,7 +74,7 @@ public:
     }
 
     void handleArrival(Event& e){
-        //You will fill in this method.
+        double endShopTime = e.getPerson().getCustomerArrival() * (e.getPerson().getorderSize() * getItemPickupTime()));
     }
 
     void handleEndShopping(Event& e){
@@ -87,7 +88,9 @@ public:
     }
 
     int getShortestLine(){
-        //You will fill in this method.
+        for(int i = 0; i < totalNumberOfRegisters - 1; i++){
+          registers[i]
+        }
     }
 
     void statsHandling(){
