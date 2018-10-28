@@ -53,4 +53,4 @@ public:
   int size(){
     return arraySize;
   }
-}
+};
