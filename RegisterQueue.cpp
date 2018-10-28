@@ -148,4 +148,8 @@ public:
     void setTotalWaitTime(double waitTime){
         totalCustomerWaitTime = waitTime;
     }
+    int getTotalNumberOfCustomers(){
+        return numberOfCustomers;
+    }
+
 };
