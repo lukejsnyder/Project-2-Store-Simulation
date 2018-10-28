@@ -15,14 +15,15 @@ template <class T> void PriorityQueue<T>::insert(T e){
     arrq[arraySize + 1] = e;
     arraySize++;
     int parent = arraySize;
-    T temp;
+    T temp();
+    T testParent();
     while(parent != 1){
       if((parent % 2) != 0){
         parent = parent - 1;
       }
       parent = parent / 2;
       temp = arrq[arraySize];
-      T testParent = arrq[parent];
+      testParent = arrq[parent];
       double testParentTime = testParent.getSimTime();
       double tempTime = temp.getSimTime();
       if(testParentTime > tempTime){
