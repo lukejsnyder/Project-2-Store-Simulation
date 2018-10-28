@@ -1,56 +1,56 @@
 #include "customer.cpp"
+#include "PriorityQueue.hpp"
 #include <iostream>
 using namespace std;
 
-template <class T> class MyPriorityQueue{
-private:
-  int simTime;
-  T array = new T[100000];
-  int arraySize = 0;
-public:
-  insert(Event e){
+
+
+  template <class T> void PriorityQueue<T>::insert(T e){
+    T arrq = new T[100000];
+    int arraySize = 0;
     if(arraySize == 0){
-      array[1] = e;
+      arrq[1] = e;
       arraySize = 1;
     }else{
-      array[arraySize + 1] = e;
+      arrq[arraySize + 1] = e;
       arraySize++;
       int parent = arraySize;
-      Event temp;
-      while(int parent != 1){
+      T temp;
+      while(parent != 1){
         if((parent % 2) != 0){
           parent = parent - 1;
         }
         parent = parent / 2;
-        temp = array[arraySize];
-        testParent = array[parent];
+        temp = arrq[arraySize];
+        T testParent = arrq[parent];
         if(testParent.getSimTime() > temp.getSimTime()){
-          array[arraySize] = array[parent];
-          array[parent] = temp;
+          arrq[arraySize] = arrq[parent];
+          arrq[parent] = temp;
           }
         }
       }
     }
-  remove(){
-    Event temp = array[1];
-    Event temp2;
-    array[1] = array[arraySize];
-    array[arraySize] = array[arraySize + 1];
+    template <class T> void PriorityQueue<T>::remove(){
+    T temp = arrq[1];
+    T temp2;
+    arrq[1] = arrq[arraySize];
+    arrq[arraySize] = arrq[arraySize + 1];
     arraySize = arraySize - 1;
     int i = 1;
     while(i < arraySize){
-      if(array[(2*i).getSimTime()] > array[(2*i+ 1).getSimTime()]){
-        array[i] = array[2*i + 1];
-        array[2*i + 1] = temp;
+      if(arrq[(2*i)].getSimTime() > arrq[(2*i+ 1)].getSimTime()){
+        arrq[i] = arrq[2*i + 1];
+        arrq[2*i + 1] = temp;
         i = 2*i + 1;
       }else{
-        array[i] = array[2*i];
-        array[2*i] = temp;
+        arrq[i] = arrq[2*i];
+        arrq[2*i] = temp;
         i = 2*i;
       }
     }
   }
-  int size(){
+ template <class T> int PriorityQueue<T>::size(){
     return arraySize;
   }
 }
+
