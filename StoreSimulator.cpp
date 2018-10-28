@@ -75,10 +75,23 @@ public:
 
     void handleArrival(Event& e){
         double endShopTime = e.getPerson().getCustomerArrival() * (e.getPerson().getorderSize() * getItemPickupTime()));
+        Event p(EndShopping, endShopTime, e.getPerson());
+        p.getPerson().setEndShopping(endShopTime);
+        events.remove();
+        events.insert(p);
     }
 
     void handleEndShopping(Event& e){
-        //You will fill in this method.
+        Customer q = e.getPerson();
+        int shortestLine = getShortestLine();
+        q.setRegisterCheckoutLine(shortestLine);
+        registers[shortestLine].enqueue(q);
+        double waitTime = q.getEndShopping() +
+          registers[shortestLine].getTotalWaitTime();
+        q.setStartCheckingOut(waitTime);
+        events.remove();
+        Event p(startCheckout, waitTime, q);
+        events.insert(p);
     }
 
 
