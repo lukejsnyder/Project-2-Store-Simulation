@@ -1,4 +1,4 @@
-#include "customer.cpp"
+#include "Customer.cpp"
 #include "PriorityQueue.hpp"
 #include <iostream>
 using namespace std;
@@ -9,7 +9,7 @@ template <class T> void PriorityQueue<T>::insert(T e){
   T * arrq = new T[100000];
   int arraySize = 0;
   if(arraySize == 0){
-    arrq[1] = e;
+    arrq[0] = e;
     arraySize = 1;
   }else{
     arrq[arraySize + 1] = e;
