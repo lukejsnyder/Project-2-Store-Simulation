@@ -8,9 +8,9 @@ template <class T> class PriorityQueue{
     int arraySize;
     int simTime;
   public:
-    MyPriorityQueue();
+    PriorityQueue();
     void insert(T e);
-    void remove();
+    T remove();
     int size();
     PriorityQueue& operator=(const PriorityQueue<T>& other){//incoming tote has the same size and values as the main
       arraySize = other.arraySize;
