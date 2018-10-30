@@ -98,7 +98,7 @@ public:
       numberOfCustomers++;
     }
 
-    Customer& dequeue() {
+    Customer dequeue() {
       if(front == NULL){
           throw (1);
       }
@@ -115,7 +115,7 @@ public:
       return c;
     }
 
-    Customer& peek() {
+    Customer peek() {
       if(front = NULL){
         throw(1);
       }
@@ -148,4 +148,8 @@ public:
     void setTotalWaitTime(double waitTime){
         totalCustomerWaitTime = waitTime;
     }
+    int getTotalNumberOfCustomers(){
+        return numberOfCustomers;
+    }
+
 };
