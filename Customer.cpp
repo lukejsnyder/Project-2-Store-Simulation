@@ -7,13 +7,9 @@ private:
   double customerArrival; //when the customer arrives at the store
   int orderSize; //how many items they will buy
   double itemPickupTime; //how long on average it takes the customer to pick up an item.
-
-  /**
-    These are variables you may want to add
-        int registerCheckoutLine;
-        double endShopping (aka startWaiting)
-        double startCheckingOut    
-  */
+  int registerCheckoutLine;//what line they hop in, should be the shortest
+  double endShopping;//start waiting variable
+  double startCheckingOut;//after waiting
 
   friend ostream& operator<<(ostream& os, const Customer& c){
     os << c.customerArrival << " " << c.orderSize ;
@@ -55,5 +51,23 @@ public:
   }
   void setItemPickupTime(int itemPickupTime) {
     this->itemPickupTime = itemPickupTime;
+  }
+  double getEndShopping(){
+    return endShopping;
+  }
+  void setEndShopping(double endShopTime){
+    endShopping = endShopTime;
+  }
+  double getStartCheckingOut(){
+    return startCheckingOut;
+  }
+  void setStartCheckingOut(double startCheckout){
+    startCheckingOut = startCheckout;
+  }
+  int getRegisterCheckoutLine(){
+    return registerCheckoutLine;
+  }
+  void setRegisterCheckoutLine(int shortestLine){
+    registerCheckoutLine = shortestLine;
   }
 };

@@ -85,29 +85,37 @@ public:
         int shortestLine = getShortestLine();
         q.setRegisterCheckoutLine(shortestLine);
         registers[shortestLine].enqueue(q);
-        double waitTime = q.getEndShopping() +
-          registers[shortestLine].getTotalWaitTime();
-        q.setStartCheckingOut(waitTime);
+        double checkoutTime = q.getEndShopping() +
+          registers[shortestLine].getWaitTimeNow();
+        q.setStartCheckingOut(checkoutTime);
         events.remove();
-        Event p(EndCheckout, waitTime, q);
+        Event p(EndCheckout, checkoutTime, q);
         events.insert(p);
-
+        if(registers[shortestLine].getWaitTimeNow() == 0){
+          handleEndCheckout(p);
+        }
     }
 
     void handleEndCheckout(Event& e){
-
+        int checkoutLine = e.getPerson().getRegisterCheckoutLine();
+        double itemScanT = registers[checkoutLine].getScanTime() * e.getPerson().getOrderSize();
+        if(registers[checkoutLine].getNumberInLine() > 1){
+          registers[checkoutLine].setWaitTimeNow(itemScanT + registers[checkoutLine].getPayTime());
+          registers[checkoutLine].setTotalWaitTime(itemScanT + registers[checkoutLine].getPayTime());
+        }
+        registers[checkoutLine].dequeue();
+        events.remove();
     }
 
     int getShortestLine(){
-        for(int i = 0; i < totalNumberOfRegisters - 1; i++){
-          int j;
-          int k;
-          if(i == 0){
-            j = i;
-            k = j + 1;
+        int shortestLine = 0; //index for current shortest line
+        for(int i = 1; i < registers.size(); i++){
+          if(registers[shortestLine].getNumberInLine() > registers[i].getNumberInLine() ){
+            shortestLine = i;
           }
+          return shortestLine;
         }
-    }
+      }
 
     void statsHandling(){
       double meanWaitTotal; // Used to find the mean
@@ -116,20 +124,38 @@ public:
       double waitMoreThan3min; //Customers who wait more than 3 minutes
       double waitMoreThan5min; //Customers who wait more than 5 minutes
       double waitMoreThan10min; //Customers who wait more than 10 minutes
-//---------------------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------------------------
       // Prints the mean waiting time of the customers.
       for(int i = 0; i< registers.size(); i++ ){ //Iterates through <vector> registers
-        meanWaitTotal = meanWaitTotal + registers[i]->getTotalWaitTime(); //Calls getTotalWaitTime() from RegisterQueue through <vector> registers.
+        meanWaitTotal = meanWaitTotal + registers[i].getTotalWaitTime(); //Calls getTotalWaitTime() from RegisterQueue through <vector> registers.
+        mean = meanWaitTotal/registers[i].getTotalNumberOfCustomers(); // To find the mean you must first
+        cout << "The mean wait time for the customers was" << mean << '\n';
       }
-      mean = meanWaitTotal/RegisterQueue->getTotalNumberOfCustomers(); // To find the mean you must first
-      cout << "The mean wait time for the customers was" << mean << '\n';
-//---------------------------------------------------------------------------------------------------------
-      //Prints the total number of customers who waited more than 2 minutes.
-        for(int i = 0; i< registers->size(); i++ ){ //Iterates through <vector> registers
-            if(RegisterQueue->getTotalWaitTime() > 2){ //Calls getTotalWaitTime from register
-              waitMoreThan2min = waitMoreThan2min + 1; // Adds a customer that has been waiting longer than 2 minutes
-            }
-        }
-    }
 
-};
+      //---------------------------------------------------------------------------------------------------------
+      //Prints the total number of customers who waited more than 2 minutes.
+      for(int i = 0; i< registers.size(); i++ ){ //Iterates through <vector> registers
+        if(registers[i].getTotalWaitTime() > 2){ //Calls getTotalWaitTime from register
+          waitMoreThan2min = waitMoreThan2min + 1; // Adds a customer that has been waiting longer than 2 minutes
+        }
+      }
+      std::cout << "There are: " << waitMoreThan3min << "customers who waited more than 3 minutes"<< '\n';
+      //---------------------------------------------------------------------------------------------------------
+      //Prints the total number of customers who waited more than 5 minutes.
+      for(int i = 0; i< registers.size(); i++ ){
+        if(registers[i].getTotalWaitTime() > 3 ){
+          waitMoreThan5min = waitMoreThan5min +1;
+        }
+      }
+      std::cout << "There are: " << waitMoreThan5min << "customers who waited more than 5 minutes"<< '\n';
+      //---------------------------------------------------------------------------------------------------------
+      //Prints the total number of customers who waited more than 10 minutes.
+      for(int i = 0; i< registers.size(); i++ ){
+        if(registers[i].getTotalWaitTime() > 10 ){
+          waitMoreThan10min = waitMoreThan10min +1;
+        }
+      }
+      std::cout << "There are: " << waitMoreThan10min << "customers who waited more than 10 minutes"<< '\n';
+      //---------------------------------------------------------------------------------------------------------
+    }
+  };
