@@ -27,6 +27,8 @@ template <class T> void  PriorityQueue<T>::insert(T e){
       if(testParent > temp){
         arrq[arraySize] = arrq[parent];
         arrq[parent] = temp;
+      }else{
+        parent = 1;
       }
     }
   }

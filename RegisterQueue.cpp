@@ -18,12 +18,15 @@ private:
     Node * back;
 
     //Variables for stats
+    int numberInLine;
     int numberOfCustomers;
     double totalCustomerWaitTime;
 
     //Checkout Time Factors.
     double scanTime;
     double payTime;
+    double waitTimeNow;
+
 
 public:
     RegisterQueue(){
@@ -95,10 +98,11 @@ public:
       }else{
           back->toFront->toBack = back;
       }
+      numberInLine++;
       numberOfCustomers++;
     }
 
-    Customer& dequeue() {
+    Customer dequeue() {
       if(front == NULL){
           throw (1);
       }
@@ -111,11 +115,11 @@ public:
           delete(front);
           front = back = NULL;
       }
-      numberOfCustomers--;
+      numberInLine--;
       return c;
     }
 
-    Customer& peek() {
+    Customer peek() {
       if(front = NULL){
         throw(1);
       }
@@ -129,6 +133,12 @@ public:
           front = front -> toBack;
           delete(temp);
       }
+    }
+    double getWaitTimeNow(){
+      return waitTimeNow;
+    }
+    void setWaitTimeNow(double time){
+      waitTimeNow = waitTimeNow + time;
     }
 
     bool isEmpty(){
@@ -144,8 +154,14 @@ public:
     double getTotalWaitTime(){
         return totalCustomerWaitTime;
     }
-
-    void setTotalWaitTime(double waitTime){
-        totalCustomerWaitTime = waitTime;
+    int getNumberInLine(){
+      return numberInLine;
     }
+    void setTotalWaitTime(double waitTime){
+        totalCustomerWaitTime = totalCustomerWaitTime + waitTime;
+    }
+    int getTotalNumberOfCustomers(){
+        return numberOfCustomers;
+    }
+
 };
