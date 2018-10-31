@@ -7,6 +7,7 @@ template <class T> class PriorityQueue{
     T * arrq;
     int arraySize;
     int simTime;
+
   public:
     PriorityQueue();
     void insert(T e);
